@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Spark Hub | Air — Student</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #060608;
+    --glass-bg: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.09);
+    --glass-hover-bg: rgba(255,255,255,0.07);
+    --glass-hover-border: rgba(255,255,255,0.18);
+    --text-primary: #f0f0f5;
+    --text-secondary: #7e7e9a;
+    --text-muted: #4a4a62;
+    --accent-blue: #3b8ff3;
+    --accent-teal: #1d8a9a;
+    --accent-gold: #f0a832;
+    --glow-blue: rgba(59, 143, 243, 0.18);
+    --glow-purple: rgba(130, 80, 255, 0.12);
+    --navbar-h: 68px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Background atmosphere ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80vw 60vh at 20% 10%, rgba(59,100,243,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 70vw 50vh at 85% 25%, rgba(100,60,255,0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 50vw 40vh at 50% 80%, rgba(29,138,154,0.05) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle grain texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── Navbar ── */
+  nav {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 1100px;
+    height: var(--navbar-h);
+    background: rgba(10,10,18,0.55);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.06) inset;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .nav-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .nav-title span {
+    display: block;
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-secondary);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .nav-back:hover {
+    background: var(--glass-hover-bg);
+    border-color: var(--glass-hover-border);
+    color: var(--text-primary);
+    transform: translateX(-2px);
+  }
+
+  /* ── Main content wrapper ── */
+  main {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(var(--navbar-h) + 48px);
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 72px 24px 80px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(59,143,243,0.25);
+    background: rgba(59,143,243,0.07);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent-blue);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    box-shadow: 0 0 8px var(--accent-blue);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+  }
+
+  .hero-headline {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(44px, 7vw, 80px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    text-shadow:
+      0 0 60px rgba(59,143,243,0.5),
+      0 0 120px rgba(59,143,243,0.2),
+      0 2px 4px rgba(0,0,0,0.4);
+    animation: fadeUp 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .hero-sub {
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    letter-spacing: -0.01em;
+    animation: fadeUp 1s 0.22s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Divider ── */
+  .section-header {
+    max-width: 1100px;
+    margin: 0 auto 32px;
+    padding: 0 24px;
+    animation: fadeUp 1s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .section-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Cards Grid ── */
+  .cards-section {
+    max-width: 1100px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 680px) {
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Glass Card ── */
+  .card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 36px 32px 32px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.4s cubic-bezier(0.16,1,0.3,1),
+                border-color 0.3s ease,
+                background 0.3s ease;
+    animation: fadeUp 1s 0.45s cubic-bezier(0.16,1,0.3,1) both;
+  }
+
+  .card:nth-child(2) { animation-delay: 0.55s; }
+
+  /* Ambient glow layer */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 24px;
+    background: var(--card-glow, transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Top shimmer line */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    border-radius: 100px;
+  }
+
+  .card:hover {
+    transform: translateY(-6px) scale(1.01);
+    background: var(--glass-hover-bg);
+    border-color: var(--glass-hover-border);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  /* Card A — blue glow */
+  .card-a {
+    --card-glow: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(59,143,243,0.12), transparent);
+  }
+  .card-a:hover {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(59,143,243,0.2), 0 0 80px rgba(59,143,243,0.08);
+  }
+
+  /* Card B — teal glow */
+  .card-b {
+    --card-glow: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(29,138,154,0.12), transparent);
+  }
+  .card-b:hover {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(29,138,154,0.2), 0 0 80px rgba(29,138,154,0.08);
+  }
+
+  /* ── Card Icon Badge ── */
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .card-a .card-icon {
+    background: linear-gradient(135deg, rgba(59,143,243,0.2), rgba(59,143,243,0.05));
+    border: 1px solid rgba(59,143,243,0.2);
+    box-shadow: 0 0 20px rgba(59,143,243,0.1);
+  }
+
+  .card-b .card-icon {
+    background: linear-gradient(135deg, rgba(29,138,154,0.2), rgba(29,138,154,0.05));
+    border: 1px solid rgba(29,138,154,0.2);
+    box-shadow: 0 0 20px rgba(29,138,154,0.1);
+  }
+
+  /* ── Card content ── */
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .card-a .card-label { color: rgba(59,143,243,0.6); }
+  .card-b .card-label { color: rgba(29,138,154,0.6); }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(17px, 2vw, 21px);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .card-desc {
+    font-size: 14.5px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.25s ease, gap 0.25s ease;
+  }
+
+  .card:hover .card-cta {
+    gap: 10px;
+    color: var(--text-primary);
+  }
+
+  .card-a:hover .card-cta { color: var(--accent-blue); }
+  .card-b:hover .card-cta { color: var(--accent-teal); }
+
+  .cta-arrow {
+    transition: transform 0.25s ease;
+    font-style: normal;
+  }
+
+  .card:hover .cta-arrow { transform: translateX(3px); }
+
+  /* ── Floating particles (decorative) ── */
+  .particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,143,243,0.5), transparent 60%);
+    animation: float linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes float {
+    0%   { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+    5%   { opacity: 0.4; }
+    95%  { opacity: 0.15; }
+    100% { transform: translateY(-100px) translateX(var(--dx, 30px)) scale(1); opacity: 0; }
+  }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 24px 56px;
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+
+  footer span {
+    display: inline-block;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<!-- ── Navbar ── -->
+<nav>
+  <a href="index.html" class="nav-brand">
+    <img
+      src="Gemini_Generated_Image_12vueg12vueg12vu.png"
+      alt="AI Spark Hub logo"
+      class="nav-logo"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    />
+    <!-- Fallback SVG logo if image fails -->
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"
+         style="display:none; align-items:center; justify-content:center; background:rgba(29,138,154,0.15); border-radius:8px; padding:6px;">
+      <path d="M18 8 C12 8 8 12 8 18 C8 24 12 28 18 28 C24 28 28 24 28 18" stroke="#1d8a9a" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M18 4 L18 8" stroke="#f0a832" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="18" cy="4" r="2" fill="#f0a832"/>
+    </svg>
+    <div class="nav-title">
+      AI Spark Hub | Air
+      <span>Student Edition</span>
+    </div>
+  </a>
+
+  <a href="index.html" class="nav-back">
+    ← Back to Home
+  </a>
+</nav>
+
+<!-- ── Main ── -->
+<main>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-eyebrow">Student Toolkit</div>
+    <h1 class="hero-headline">Unleash Your&nbsp;Potential.</h1>
+    <p class="hero-sub">Supercharge your learning with AI-driven study hacks.</p>
+  </section>
+
+  <!-- Section header -->
+  <div class="section-header">
+    <p class="section-tag">AI Survival Kit</p>
+    <h2 class="section-title">Work Smarter, Not Harder — With the Right AI</h2>
+  </div>
+
+  <!-- Cards -->
+  <section class="cards-section">
+    <div class="cards-grid">
+
+      <!-- Card A -->
+      <a href="#" class="card card-a">
+        <div class="card-icon">🗺️</div>
+        <p class="card-label">Visual Learning</p>
+        <h3 class="card-title">Instant Study Guides<br/>(Napkin AI)</h3>
+        <p class="card-desc">
+          Drowning in readings before exams? Turn mountains of material into clear mind maps and knowledge networks — complex concepts made visual in one click.
+        </p>
+        <span class="card-cta">
+          Explore tool <i class="cta-arrow">→</i>
+        </span>
+      </a>
+
+      <!-- Card B -->
+      <a href="#" class="card card-b">
+        <div class="card-icon">🧠</div>
+        <p class="card-label">Active Recall</p>
+        <h3 class="card-title">Self-Testing<br/>AI Tutor</h3>
+        <p class="card-desc">
+          Stop just Googling answers. Engage in Socratic dialogue with your AI tutor to identify knowledge gaps fast — and walk into finals actually prepared.
+        </p>
+        <span class="card-cta">
+          Start learning <i class="cta-arrow">→</i>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <span>© 2025 AI Spark Hub · Built for curious minds</span>
+</footer>
+
+<script>
+  // ── Spawn floating particles ──
+  const container = document.getElementById('particles');
+  const colors = [
+    'rgba(59,143,243,0.5)',
+    'rgba(100,60,255,0.4)',
+    'rgba(29,138,154,0.5)',
+    'rgba(240,168,50,0.3)'
+  ];
+
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 1.5;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const delay = Math.random() * 18;
+    const dur = Math.random() * 18 + 14;
+    const left = Math.random() * 100;
+    const dx = (Math.random() - 0.5) * 120;
+
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      background: radial-gradient(circle, ${color}, transparent 60%);
+      left: ${left}%;
+      bottom: -10px;
+      animation-duration: ${dur}s;
+      animation-delay: ${delay}s;
+      --dx: ${dx}px;
+    `;
+    container.appendChild(p);
+  }
+
+  // ── Card tilt on mouse move ──
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      card.style.transform = `translateY(-6px) scale(1.01) rotateX(${-dy * 4}deg) rotateY(${dx * 4}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+</script>
+</body>
+</html>
