@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Spark Hub | Pro — Staff</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080b10;
+    --surface: rgba(255,255,255,0.04);
+    --surface-hover: rgba(255,255,255,0.07);
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.22);
+    --text-primary: #f0f2f5;
+    --text-secondary: #6b7280;
+    --text-muted: #3d4451;
+    --gold: #f5c842;
+    --teal: #1e8ca8;
+    --teal-light: #3ab5d0;
+    --navy: #1a2f5e;
+    --glow-teal: rgba(58,181,208,0.18);
+    --glow-gold: rgba(245,200,66,0.15);
+    --font-display: 'Outfit', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Background mesh ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(30,140,168,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(26,47,94,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 30% at 60% 30%, rgba(245,200,66,0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle grid texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(8,11,16,0.65);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    filter: brightness(0) invert(1) opacity(0.92);
+  }
+
+  .nav-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+  }
+
+  .nav-title span {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-back:hover {
+    border-color: rgba(255,255,255,0.18);
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.07);
+    transform: translateX(-2px);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 160px 24px 80px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 100px;
+    background: rgba(245,200,66,0.06);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #ffffff 0%, #c8e8f0 35%, var(--teal-light) 60%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(58,181,208,0.3));
+    animation: fadeUp 0.8s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto 28px;
+    padding: 0 24px;
+  }
+
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    white-space: nowrap;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(58,181,208,0.4) 0%, transparent 100%);
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 60px; }
+
+  /* ── GRID ── */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .grid-1 {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    padding: 36px 32px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.23,1,0.32,1),
+                border-color 0.35s ease,
+                box-shadow 0.35s ease,
+                background 0.35s ease;
+    cursor: pointer;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.2s; }
+
+  /* Shimmer border on hover */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 21px;
+    padding: 1px;
+    background: linear-gradient(135deg, transparent 0%, var(--teal-light) 40%, var(--gold) 70%, transparent 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  /* Radial glow */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse, var(--glow-teal), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .card:hover {
+    transform: translateY(-6px) scale(1.012);
+    border-color: rgba(255,255,255,0.04);
+    background: var(--surface-hover);
+    box-shadow:
+      0 24px 64px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.04),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  .card:hover::before { opacity: 1; }
+  .card:hover::after  { opacity: 1; }
+
+  .card-wide::after {
+    background: radial-gradient(ellipse, rgba(245,200,66,0.08), transparent 70%);
+  }
+
+  /* Card tag */
+  .card-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .tag-solution {
+    background: rgba(58,181,208,0.1);
+    border: 1px solid rgba(58,181,208,0.2);
+    color: var(--teal-light);
+  }
+
+  .tag-casestudy {
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.2);
+    color: var(--gold);
+  }
+
+  /* Card icon */
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    font-size: 22px;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover .card-icon { transform: scale(1.1) rotate(-4deg); }
+
+  .card-wide .card-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 26px;
+    border-radius: 16px;
+  }
+
+  .card h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .card-wide h2 {
+    font-size: 26px;
+    margin-bottom: 14px;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .card-wide p {
+    font-size: 15px;
+    max-width: 640px;
+  }
+
+  /* CTA arrow */
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal-light);
+    letter-spacing: 0.01em;
+    transition: gap 0.25s ease;
+  }
+
+  .card:hover .card-cta { gap: 10px; }
+
+  .card-wide .card-cta { color: var(--gold); }
+
+  .card-cta-arrow {
+    transition: transform 0.25s ease;
+  }
+  .card:hover .card-cta-arrow { transform: translateX(4px); }
+
+  /* Wide card layout */
+  .card-wide-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .card-wide-text { flex: 1; }
+
+  .card-wide-badge {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .badge-stat {
+    text-align: right;
+  }
+
+  .badge-stat-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold), #f9e093);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .badge-stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 32px 24px 48px;
+    border-top: 1px solid var(--border);
+  }
+
+  footer p {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    nav { width: calc(100% - 24px); top: 10px; padding: 10px 14px; }
+    .hero { padding: 130px 20px 60px; }
+    .card-wide-inner { flex-direction: column; gap: 20px; }
+    .card-wide-badge { align-items: flex-start; flex-direction: row; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="nav-brand">
+    <img
+      src="Gemini_Generated_Image_12vueg12vueg12vu.png"
+      alt="AI Spark Hub Logo"
+      class="nav-logo"
+    >
+    <span class="nav-title">AI Spark Hub&nbsp;<span>| Pro</span></span>
+  </a>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 2 4 7 9 12"/>
+    </svg>
+    Back to Home
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Staff Resources</div>
+  <h1>Agile Interventions.<br>Redefine Teaching.</h1>
+  <p class="hero-sub">Explore our 5-minute solutions and deep-dive case studies.</p>
+</section>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- Section 1 -->
+  <section class="section">
+    <div class="section-divider">
+      <span class="section-label">5-Minute AI Solutions</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid-2">
+
+      <!-- Card A -->
+      <a href="https://nottinghamedu1.sharepoint.com/sites/library/Learning-Technologies/SitePages/5-Minute%20AI%20Solutions/napkin.aspx"
+         target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-tag tag-solution">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          Quick Win
+        </div>
+        <div class="card-icon">🗺️</div>
+        <h2>Napkin AI Visual Mapper</h2>
+        <p>Turn dense lecture notes into publication-ready logic diagrams in a single click — no more walls of text overwhelming your students.</p>
+        <div class="card-cta">
+          Open Resource
+          <svg class="card-cta-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 7 11 7 8 4"/><polyline points="8 10 11 7"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- Card B -->
+      <a href="https://nottinghamedu1.sharepoint.com/sites/library/Learning-Technologies/SitePages/5-Minute%20AI%20Solutions/Socratic%20TA.aspx"
+         target="_blank" rel="noopener noreferrer" class="card">
+        <div class="card-tag tag-solution">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+          Quick Win
+        </div>
+        <div class="card-icon">💬</div>
+        <h2>Socratic AI Tutor</h2>
+        <p>Guided prompt templates that stop AI from handing over answers directly — building genuine critical thinking and inquiry habits in every student.</p>
+        <div class="card-cta">
+          Open Resource
+          <svg class="card-cta-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 7 11 7 8 4"/><polyline points="8 10 11 7"/>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Section 2 -->
+  <section class="section">
+    <div class="section-divider">
+      <span class="section-label">Curriculum Transformation</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid-1">
+
+      <!-- Card C -->
+      <a href="#" class="card card-wide">
+        <div class="card-wide-inner">
+          <div class="card-wide-text">
+            <div class="card-tag tag-casestudy">
+              <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>
+              Case Study
+            </div>
+            <div class="card-icon">⚡</div>
+            <h2>Case Study: RiPPLE Adaptive Learning</h2>
+            <p>Discover next-generation adaptive assessment and peer-review systems powered by student-generated content (SGC) — where every learner contributes to a living, evolving knowledge ecosystem.</p>
+            <div class="card-cta">
+              Coming Soon
+              <svg class="card-cta-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 7 11 7 8 4"/><polyline points="8 10 11 7"/>
+              </svg>
+            </div>
+          </div>
+          <div class="card-wide-badge">
+            <div class="badge-stat">
+              <div class="badge-stat-num">SGC</div>
+              <div class="badge-stat-label">Driven</div>
+            </div>
+            <div class="badge-stat">
+              <div class="badge-stat-num">P2P</div>
+              <div class="badge-stat-label">Review</div>
+            </div>
+            <div class="badge-stat">
+              <div class="badge-stat-num">AI+</div>
+              <div class="badge-stat-label">Adaptive</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 AI Spark Hub · University of Nottingham · Learning Technologies</p>
+</footer>
+
+</body>
+</html>
